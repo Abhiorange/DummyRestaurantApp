@@ -1,0 +1,9 @@
+﻿@media(max-width: 767px) {
+    .accountstyle {
+        width: 100% !important;
+    }
+
+    .loginstyle {
+        width: 100% !important;
+    }
+}
