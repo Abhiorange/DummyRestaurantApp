@@ -121,6 +121,33 @@ namespace dataRepository.Repository
                 con.Close();
             }
             return model;
+        } 
+        public UserEditVm GetUserById(int id)
+        {
+            UserEditVm model = null;
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("GetUserById", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", id);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while(rdr.Read())
+                {
+                    model= new UserEditVm
+                    {
+                        name = rdr["name"].ToString(),
+                        contact = rdr["contact"].ToString(),
+                        password = rdr["password"].ToString(),
+                        email = rdr["email"].ToString(),
+                        companyId = Convert.ToInt32(rdr["companyId"])
+                    };
+                 
+                }
+                con.Close();
+
+            }
+            return model;
         }
         public int adduser(PostUserRegisterVm model)
         {
@@ -138,6 +165,35 @@ namespace dataRepository.Repository
 
                 int i = cmd.ExecuteNonQuery();
 
+                return i;
+            }
+        }
+        public int EditUser(PostUserEditVm model)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("Updateuser", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", model.UserId);
+                cmd.Parameters.AddWithValue("@name", model.name);
+                cmd.Parameters.AddWithValue("@contact", model.contact);
+                cmd.Parameters.AddWithValue("@email", model.email);
+                cmd.Parameters.AddWithValue("@companyId", model.companyId);
+                cmd.Parameters.AddWithValue("@password", model.password);
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
+                return i;
+            }
+        }
+        public int deleteUserById(int id)
+        {
+            using (SqlConnection con = new SqlConnection(connections))
+            {
+                SqlCommand cmd = new SqlCommand("DeleteUserById", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", id);
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
                 return i;
             }
         }

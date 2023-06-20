@@ -1,67 +1,325 @@
-﻿@model ViewModels.Models.CompanyLoginVm
-<head>
-    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
-</head>
-<body>
-    <div class="container border mt-5">
-        <div class="row" style="background-color: cornsilk;">
-            <div class="col d-flex p-3 justify-content-center">
-                <div class="d-flex flex-column">
-                    <span class="rounded-circle bg-danger mx-auto p-3 text-white" style="width:57px"><i class="bi bi-lock ms-1"></i></span>
-                    <span>Login to your Company account</span>
-                </div>
-            </div>
-        </div>
-        <div class="row" style="background-color: whitesmoke;">
-            <div class="col-md-6 ps-md-5 ms-md-2">
-                @if (TempData["ErrorMessage"] != null)
-                {
-                    <span class="text-danger">@TempData["ErrorMessage"]</span>
-                }
-                <form method="post" asp-action="Login" asp-controller="home">
-                  
-                    <div class="d-flex flex-column my-2">
-                        <label>Name<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" asp-for="name">
-                        <span asp-validation-for="name" class="text-danger"></span>
-                    </div>
-                    <div class="d-flex flex-column my-2">
-                        <label>Password<span class="text-danger">*</span></label>
-                        <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" asp-for="password">
-                        <span asp-validation-for="password" class="text-danger"></span>
-                    </div>
-                    <div class="my-2">
-                        <span>Forget Your PAssword?</span>
-                    </div>
-                    <div class="d-flex my-3">
-                        <input type="checkbox" class="me-2">
-                        <span>Stay Logged in</span>
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-danger my-3 loginstyle" style="width:203px;">login</button>
-                    </div>
-                </form>
-                @* <hr style="width:190%"/>*@
-                <div>
-                    <span style="font-size: 23px;">New To Aramex?</span>
-                </div>
-                <div>
-                    <a type="button" asp-action="UserLogin" asp-controller="Home" class="btn btn-secondary my-3 accountstyle" style="width:203px;">Login For User</a>
-                </div>
-                 <div>
-                    <a type="button" asp-action="AllUsers" asp-controller="Home" class="btn btn-secondary my-3 accountstyle" style="width:203px;">All Users</a>
-                </div>
-                 <div>
-                    <a type="button" asp-action="Register" asp-controller="Home" class="btn btn-secondary my-3 accountstyle" style="width:203px;">Create An Account</a>
-                </div>
-            </div>
+﻿
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="~/css/respos.css">
+@*<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>*@
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+
+
+
+<!-- toggle starts -->
+
+<div id="mySidebar" class="sidebar">
+    <div class="toggle-nav" style="">
+        <img src="~/images/restaurant2.jpg" style="opacity: 0.2;width: 100%;object-fit: cover;" alt="">
+        <p style="" class="m-0 aramex-title">
+            Food Zone
+        </p>
+        <a href="javascript:void(0)" style="padding: 0px;" class="closebtn" onclick="closeNav()">&times;</a>
+    </div>
+
+
+
+    <p id="drp" class="drp">
+        Forms <span style="margin-left: 150px;"><i class="bi bi-chevron-down arrow"></i></span>
+    </p>
+
+    <div class="drpclass d-none" style=" background-color: #ffe599;">
+        <button type="button" onclick="userLogin()" class="pages" style="   border:0px;background-color:transparent;width:stretch">
+            <div style="">User Login</div>
+        </button>
+        <hr>
+        <button type="button" onclick="userRegister()" class="pages">
+            <div style="">User Register</div>
+        </button>
+        <hr>
+        <button type="button" onclick="companyLogin()" class="pages">
+            <div style="">Company Login</div>
+        </button>
+        <hr>
+        <button type="button" onclick="companyRegister()" class="pages">
+            <div style="">Company Register</div>
+        </button>
+
+    </div>
+
+
+
+</div>
+
+
+
+<!-- toggle ends -->
+
+
+<div id="main" style="z-index: 1;">
+    <button class="openbtn position-absolute" onclick="openNav()">
+        <img src="~/images/burger.png" alt=""
+             style="height: 50px;">
+    </button>
+</div>
+
+
+
+<!-- toggle 2  -->
+
+<div id="mySidebar2" class="sidebar2">
+    <div class="toggle-nav" style="">
+        <img src="~/images/restaurant2.jpg" style="    opacity: 0.2;
+        width: 100%;
+        object-fit: cover;" alt="">
+        <p style="" class="m-0 aramex-title">
+            Food Zone
+        </p>
+        <a href="javascript:void(0)" style="padding: 0px;" class="closebtn2" onclick="closeNav2()">&times;</a>
+    </div>
+
+
+
+    <p id="drp" class="drp">
+        Users <span style="margin-left: 150px;"><i class="bi bi-chevron-down arrow"></i></span>
+    </p>
+
+    <div class="drpclass d-none" style=" background-color: #ffe599;">
+        <button type="button" onclick="userLogin()" class="pages" style="   border:0px;background-color:transparent;width:stretch">
+            <div style="">User Login</div>
+        </button>
+        <hr>
+        <button type="button" onclick="userRegister()" class="pages">
+            <div style="">User Register</div>
+        </button>
+        <hr>
+        <button type="button" onclick="companyLogin()" class="pages">
+            <div style="">Company Login</div>
+        </button>
+        <hr>
+        <button type="button" onclick="companyRegister()" class="pages">
+            <div style="">Company Register</div>
+        </button>
+
+    </div>
+
+
+
+</div>
+
+
+
+<!-- toggle ends -->
+
+
+<div id="main2" style="z-index: 1;">
+    <button class="openbtn2 position-absolute" onclick="openNav2()">
+        <img src="~/images/burger.png" alt=""
+             style="height: 50px;">
+    </button>
+</div>
+<!-- toggle 2 ends -->
+
+
+
+
+
+<div class="container-fluid row secondNav position-relative"
+     style="display: flex;height: 80px;justify-content: center;margin: 0px;object-fit: contain;  border-bottom: solid 2px;border-bottom-color: black; ">
+    <img src="~/images/restaurant2.jpg"
+         style="height: 80px; width: 100%;object-fit: cover;opacity: 0.2;position: relative;" alt="">
+    <div style="position: absolute;background-color: #ffe599;width: 302px;top: 13px;display: flex;justify-content: center;border-radius: 11px;border: solid grey 1px;box-shadow: 4px 5px 5px #6c757d;align-items:center">
+        <img style="height:35px;width:35px" src="~/images/icon.png" /><p style="font-size: xx-large;font-weight: 700;margin:0px"> Restaurant POS</p>
+    </div>
+    <div class="dropdown text-end" style="position: absolute;right: 10px;top: 15px;background-color: #ffe599;border: solid grey 1px;border-radius: 11px;box-shadow: 4px 5px 5px #6c757d;">
+        <!-- <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown link
+            </a>
+
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div> -->
+        <div class="profile mt-1" style="display: flex;">
+            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+               aria-expanded="false">
+                <img src="~/images/pizza.png" alt="mdo" width="40" height="40" class="rounded-circle"> Evan
+                Donohue
+            </a>
+            <ul class="dropdown-menu text-small" style="background-color: #ffe599">
+
+
+                <li><a class="dropdown-item" asp-action="Index" asp-controller="Home">Sign out</a></li>
+                <li><a class="dropdown-item" asp-action="" asp-controller="">Profile</a></li>
+
+            </ul>
 
         </div>
     </div>
+</div>
 
-    @section Scripts{
-        @{
-            <partial name="_ValidationScriptsPartial" />
-        }
+<div class="container-fluid" style=" height: 700px;">
+
+    <div class="row page" style="">
+
+        <div id="PartialView" style="display: flex;justify-content: center;">
+                <partial name="_UserLogin">
+            </div>
+      
+
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        // $("#main").css('marginLeft', '250px')
+        // $(".abhiclass").css('display','none')
+
+
+        $("#bi-shield-lock").mouseenter(function () {
+            $("#bi-shield-lock").removeClass("bi-shield-lock").addClass("bi-lock")
+        })
+
+        $("#bi-shield-lock").mouseleave(function () {
+            $("#bi-shield-lock").removeClass("bi-lock").addClass("bi-shield-lock")
+        })
+
+        $(".submit").click(function () {
+
+            console.log("submit")
+            console.log($("#exampleInputEmail1"))
+
+            if ($("#exampleInputEmail1").val == "") {
+                console.log("enter email")
+            }
+        })
+
+        $(".drp").click(function () {
+            $(".abhiclass").slideToggle(100);
+        });
+
+
+        $(".drp").click(function () {
+            // $(".boom").removeAttr("style");
+            var drpclass = $(".drpclass")
+            if (drpclass.hasClass("d-none")) {
+                drpclass.removeClass("d-none");
+                $(".arrow").removeClass("bi-chevron-down").addClass("bi-chevron-up")
+            }
+            else {
+                drpclass.addClass("d-none");
+                $(".arrow").removeClass("bi-chevron-up").addClass("bi-chevron-down")
+            }
+        });
+
+        $("#mainicon").mouseenter(function () {
+            $("#mainicon").attr('src', '/images/pizza.png');
+
+        })
+        $("#mainicon").mouseleave(function () {
+            $("#mainicon").attr('src', '/images/fries.png');
+
+        })
+
+
+
+    })
+
+    /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+    function openNav() {
+        document.getElementById("mySidebar").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "0px";
     }
-</body>
+
+    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "-250px";
+    }
+
+    function openNav2() {
+        document.getElementById("mySidebar2").style.width = "250px";
+        document.getElementById("main2").style.marginLeft = "250px";
+    }
+
+    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+    function closeNav2() {
+        document.getElementById("mySidebar2").style.width = "0";
+        document.getElementById("main2").style.marginLeft = "0px";
+    }
+
+
+
+
+</script>
+<script>
+    function userLogin() {
+        $.ajax({
+            method: 'GET',
+            url: "/Home/userLogin",
+            success: function (res) {
+                $("#PartialView").html(res)
+            },
+            error: function () {
+                alert("error");
+            },
+
+        })
+    }
+
+    function userRegister() {
+        $.ajax({
+            method: 'GET',
+            url: "/admin/Home/userRegister1",
+            success: function (res) {
+                $("#PartialView").html(res)
+            },
+            error: function () {
+                alert("error");
+            },
+
+        })
+    }
+
+      function companyLogin() {
+        $.ajax({
+            method: 'GET',
+            url: "/Home/companyLogin",
+            success: function (res) {
+                $("#PartialView").html(res)
+            },
+            error: function () {
+                alert("error");
+            },
+
+        })
+    }
+
+    function companyRegister() {
+        $.ajax({
+            method: 'GET',
+            url: "/Home/companyRegister",
+            success: function (res) {
+                $("#PartialView").html(res)
+            },
+            error: function () {
+                alert("error");
+            },
+
+        })
+    }
+    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/additional-methods.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+

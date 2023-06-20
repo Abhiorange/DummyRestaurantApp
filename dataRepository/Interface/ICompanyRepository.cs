@@ -16,5 +16,9 @@ namespace dataRepository.Interface
         public List<Userinfo> GetUsersList();
         public int adduser(PostUserRegisterVm model);
         public List<SelectListItem> GetCompanyList();
+        public UserEditVm GetUserById(int id);
+        public int EditUser(PostUserEditVm model);
+        public int deleteUserById(int id);
+
      }
 }

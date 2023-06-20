@@ -1,0 +1,130 @@
+﻿
+<div class="col-7 px-0" style="background-color: #f7f7f7;  height: auto;box-shadow: 4px 5px 5px #6c757d;">
+    <div class="page-top" style="">
+        <div class="lockIcon mt-4">
+            <img id="mainicon" src="~/images/fries.png" style="height: 60px;" alt="">
+        </div>
+
+
+                    <p class="mt-2">User Registration Page</p>
+
+            </div>
+    <div class="container mb-4" style="display:flex;justify-content:center">
+                <form method="post" class="mt-5 ">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">
+                            <p class="formInput">Email <span style="color: red;">*</span></p>
+                        </label>
+                        <input type="email" class="form-control data" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" placeholder="evan.donohue@gmail.com">
+                               <span class="text-danger" ></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="name" class="form-label">
+                            <p class="formInput">Name <span style="color: red;">*</span></p>
+                        </label>
+                        <input type="text" class="form-control data" id="name"
+                               aria-describedby="" placeholder="evan dono hue">
+                            <span class="text-danger" ></span>
+                    </div>
+
+            <div class="mb-3">
+                <label for="userCode" class="form-label">
+                    <p class="formInput">User Code <span style="color: red;">*</span></p>
+                </label>
+                <input type="text" class="form-control data" id="userCode"
+                       aria-describedby="" placeholder="Enter User Code">
+                <span class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="contact" class="form-label">
+                    <p class="formInput">Contact <span style="color: red;">*</span></p>
+                </label>
+                <input type="text" class="form-control data" id="contact"
+                       aria-describedby="" placeholder="Enter Your Contact Number">
+                <span class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="company" class="form-label">
+                    <p class="formInput">Select Company <span style="color: red;">*</span></p>
+                </label><br />
+
+                <select name="companies" class="" id="" style="background: transparent;border: solid black 1px;border-radius: 5px;background-color: white;border-color: grey;color:grey;padding: 4px;">
+                    <option value="">company list</option>
+                   
+                </select>
+            </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label" >
+                            <p class="formInput">Password <span style="color: red;">*</span></p>
+                        </label>
+                        <input type="password" class="form-control data" id="exampleInputPassword1"
+                               placeholder="**********" >
+                            <span class="text-danger" ></span>
+                    </div>
+
+                    
+
+                   
+                    <button type="submit" class="btn"
+                            style="background-color: #dc291e;color: white;border-radius: 7px;">
+                       Register
+                    </button>
+
+
+                    <hr>
+
+
+           
+
+
+
+                </form>
+            </div>
+
+
+
+             <div style="display:flex; justify-content:center ; margin-bottom:10px">
+    <button class="btn" onclick="userLogin()"
+            style="background-color: #d6d6d6; color: grey;border-radius: 7px;">
+        Log In
+    </button>
+    </div
+        </div>
+
+
+<script>
+    function userLogin() {
+        $.ajax({
+            method: 'GET',
+            url: "/Home/userLogin",
+            success: function (res) {
+                $("#PartialView").html(res)
+            },
+            error: function () {
+                alert("error");
+            },
+
+        })
+    }
+</script>
+
+    <script>
+    $(document).ready(function(){
+
+        
+        $("#mainicon").mouseenter(function () {
+            $("#mainicon").attr('src', '/images/pizza.png');
+
+        })
+        $("#mainicon").mouseleave(function () {
+            $("#mainicon").attr('src', '/images/fries.png');
+
+        })
+
+    })
+</script>

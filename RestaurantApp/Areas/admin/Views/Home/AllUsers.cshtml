@@ -25,11 +25,11 @@
                                
                                 <td class="d-flex">
                                     <button class="btn border-0">
-                                       <a asp-action="editcmsdata" asp-controller="Admin" type="button" class="text-warning" asp-route-id="">
+                                       <a asp-action="GetUserById" asp-controller="Home" type="button" class="text-warning" asp-route-id="@u.UserId">
                                         <i class="bi bi-pencil-square icon"></i>
                                         </a> </button>
                                         <button class="btn border-0">
-                                     <a class="nav-link text-black deleteMission p-2" type="button"><i class="bi bi-trash3"></i></a>
+                                     <a asp-action="DeleteUserById" asp-controller="Home" class="nav-link text-black deleteMission p-2" type="button" asp-route-id="@u.UserId"><i class="bi bi-trash3"></i></a>
                                         </button>
 
                                   

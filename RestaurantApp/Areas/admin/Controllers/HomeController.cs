@@ -31,6 +31,29 @@ namespace RestaurantApp.Areas.admin.Controllers
         {
             return View();
         }
+        public IActionResult userLogin()
+        {
+            return PartialView("_userLogin");
+        }
+
+        [HttpGet]
+        public IActionResult userRegister1()
+        {
+            return PartialView("_userRegister");
+        }
+
+        public IActionResult companyLogin()
+        {
+            return PartialView("_companyLogin");
+        }
+        public IActionResult companyRegister()
+        {
+            return PartialView("_companyRegister");
+        }
+        public IActionResult dashborad()
+        {
+            return View();
+        }
         [HttpPost]
         public IActionResult Login(CompanyLoginVm model)
         {
@@ -50,12 +73,12 @@ namespace RestaurantApp.Areas.admin.Controllers
                         if (content == "false")
                         {
                             TempData["error"] = "Invalid Credential";
-                            return View("Index");
+                            return PartialView("_userLogin");
                         }
                         else
                         {
                                 TempData["success"] = "Logged in done succesfully";
-                                return Redirect("Register");          
+                                return Redirect("dashborad");          
                         }
                     }
                 }
@@ -72,11 +95,11 @@ namespace RestaurantApp.Areas.admin.Controllers
             }
             return View("Index");
         }
-        [HttpGet]
-        public IActionResult UserLogin() //For User Login
+       
+       /* public IActionResult UserLogin() //For User Login
         {
             return View();
-        }
+        }*/
         [HttpPost]
         public IActionResult UserLogin(UserLoginVm model) //For User Login
         {
@@ -101,7 +124,7 @@ namespace RestaurantApp.Areas.admin.Controllers
                         else
                         {
                             TempData["success"] = "Logged in done succesfully";
-                            return Redirect("Index");
+                            return Redirect("dashborad");
                         }
                     }
                 }
@@ -162,7 +185,7 @@ namespace RestaurantApp.Areas.admin.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult AllUsers()
+        public IActionResult AllUsers() //rendering the list of users in UI
         {
             List<Userinfo> model = new List<Userinfo>();
             HttpResponseMessage response = _client.GetAsync(_client.BaseAddress + "/Admin/AllUsersInfo").Result;
@@ -205,6 +228,67 @@ namespace RestaurantApp.Areas.admin.Controllers
                 }
             
             return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public IActionResult GetUserById(int id)
+        {
+            UserEditVm model = new UserEditVm();
+            HttpResponseMessage response = _client.GetAsync(_client.BaseAddress + "/Admin/GetUserById/" + id).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var userJson = response.Content.ReadAsStringAsync().Result;
+                model = JsonConvert.DeserializeObject<UserEditVm>(userJson);
+            }
+            return View("UserEditPage", model);
+        }
+        public IActionResult DeleteUserById(int id)
+        {
+            try
+            {
+                HttpResponseMessage response = _client.GetAsync(_client.BaseAddress + "/Admin/DeleteUserById/"+id).Result;
+            }
+            catch (HttpRequestException ex)
+            {
+                ViewData["ErrorMessage"] = "Error: " + ex.Message;
+                return View("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = "Error: " + ex.Message;
+                return View("Index");
+            }
+            return RedirectToAction("AllUsers");
+        }
+        [HttpPost]
+        public IActionResult GetUserById(UserEditVm model)
+        {
+            PostUserEditVm user = new PostUserEditVm
+            {
+                UserId=model.UserId,
+                name=model.name,
+                password=model.password,
+                companyId=model.companyId,
+                email=model.email,
+                contact=model.contact
+            };
+            try
+            {
+                string serializedData = JsonConvert.SerializeObject(user);
+                StringContent stringContent = new StringContent(serializedData, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = _client.PostAsync(_client.BaseAddress + "/Admin/EditUser", stringContent).Result;
+
+            }
+            catch (HttpRequestException ex)
+            {
+                ViewData["ErrorMessage"] = "Error: " + ex.Message;
+                return View("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = "Error: " + ex.Message;
+                return View("Index");
+            }
+            return RedirectToAction("AllUsers");
         }
         public IActionResult Privacy()
         {

@@ -32,7 +32,7 @@ namespace RestaurantWebApi.Areas.admin.Controllers
             }
             else
             {
-                return BadRequest("Invalid credentials");
+                return Content("false");
             }
           
         }
@@ -66,7 +66,18 @@ namespace RestaurantWebApi.Areas.admin.Controllers
                 return BadRequest("Not Updated");
             }
         }
-
+        [HttpPost]        public IActionResult EditUser(PostUserEditVm model)
+        {
+            var i = _companyrepo.EditUser(model);
+            if (i > 0)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Not Updated");
+            }
+        }
         [HttpGet]
         public IActionResult UserRegister() //Get the company list
         {
@@ -90,6 +101,42 @@ namespace RestaurantWebApi.Areas.admin.Controllers
             else
             {
                 return BadRequest("Invalid credentials");
+            }
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetUserById(int id)
+        {
+            try
+            {
+                UserEditVm user = new UserEditVm();
+                var model = _companyrepo.GetUserById(id);
+                var companies = _companyrepo.GetCompanyList();
+                user.name = model.name;
+                user.email = model.email;
+                user.companyId = model.companyId;
+                user.contact = model.contact;
+                user.password = model.password;
+                user.Companies = companies;
+                user.UserId = id;
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+        [HttpGet("{id}")]
+        public IActionResult DeleteUserById(int id)
+        {
+            var i = _companyrepo.deleteUserById(id);
+            if (i > 0)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Not Updated");
             }
         }
 

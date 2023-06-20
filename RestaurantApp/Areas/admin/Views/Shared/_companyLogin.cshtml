@@ -1,0 +1,83 @@
+﻿<div class="col-7 px-0" style="background-color: #f7f7f7; height: auto; box-shadow: 4px 5px 5px #6c757d;">
+    <div class="page-top" style="">
+        <div class="lockIcon mt-4">
+            <img id="mainicon" src="~/images/fries.png" style="height: 60px;" alt="">
+        </div>
+
+        <p class="mt-2">Company Login Page</p>
+    </div>
+    <div class="container mb-4" style="display:flex;justify-content:center">
+        <form class="mt-5 formm" id="formm">
+            <div class="mb-3">
+                <label for="companyName" class="form-label">
+                    <p class="formInput">Company Name <span style="color: red;">*</span></p>
+                </label>
+                <input type="name" class="form-control data" name="name" id="companyName"
+                       aria-describedby="" placeholder="company name">
+            </div>
+
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">
+                    <p class="formInput">Password <span style="color: red;">*</span></p>
+                </label>
+                <input type="password" class="form-control data" id="exampleInputPassword1"
+                       placeholder="**********">
+            </div>
+
+            <div style="display: flex;justify-content: center;">
+                <button type="button" value="submit" class="btn submit"
+                        style="background-color: red;color: white;border-radius: 7px;">
+                    Log In
+                </button>
+            </div>
+
+            <hr>
+
+            <div>
+            </div>
+           
+
+
+
+        </form>
+    </div>
+    <div style="display:flex; justify-content:center">
+        <button class="btn" onclick="companyRegister()"
+                style="background-color: #d6d6d6; color: grey;border-radius: 7px;">
+            Create An
+            Account
+        </button>
+    </div>
+</div>
+
+<script>
+    function companyRegister() {
+        $.ajax({
+            method: 'GET',
+            url: "/Home/companyRegister",
+            success: function (res) {
+                $("#PartialView").html(res)
+            },
+            error: function () {
+                alert("error");
+            },
+
+        })
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+
+
+        $("#mainicon").mouseenter(function () {
+            $("#mainicon").attr('src', '/images/pizza.png');
+
+        })
+        $("#mainicon").mouseleave(function () {
+            $("#mainicon").attr('src', '/images/fries.png');
+
+        })
+
+    })
+</script>
